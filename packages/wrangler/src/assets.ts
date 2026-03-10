@@ -78,8 +78,8 @@ export const syncAssets = async (
 			body: JSON.stringify({ manifest: manifest }),
 		});
 
-	// In the past we've seen the endpoint return that incorrectly doesn't contain
-	// a null response (see: https://github.com/cloudflare/workers-sdk/issues/9465).
+	// In the past we've seen the endpoint incorrectly return a null response
+	// (see: https://github.com/cloudflare/workers-sdk/issues/9465).
 	// So just to be extra sure here we check the object and provide a clear error message to the user
 	// if it is falsy.
 	if (!initializeAssetsResponse) {
