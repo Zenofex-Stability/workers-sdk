@@ -48,12 +48,11 @@ function getFrameworkTestConfig(pm: string): NamedFrameworkTestConfig[] {
 		{
 			name: "astro:pages",
 			argv: ["--platform", "pages"],
-			quarantine: true,
 			testCommitMessage: true,
 			unsupportedOSs: ["win32"],
 			verifyDeploy: {
 				route: "/",
-				expectedText: "Hello, Astronaut!",
+				expectedText: "What's New in Astro 5.0?",
 			},
 			verifyPreview: {
 				previewArgs: ["--inspector-port=0"],
@@ -61,17 +60,16 @@ function getFrameworkTestConfig(pm: string): NamedFrameworkTestConfig[] {
 				expectedText: "C3_TEST",
 			},
 			nodeCompat: true,
-			flags: ["--skip-houston", "--template", "blog", "--typescript", "strict"],
+			flags: ["--skip-houston", "--typescript", "strict"],
 		},
 		{
 			name: "astro:workers",
 			argv: ["--platform", "workers"],
-			quarantine: true,
 			testCommitMessage: true,
 			unsupportedOSs: ["win32"],
 			verifyDeploy: {
 				route: "/",
-				expectedText: "Hello, Astronaut!",
+				expectedText: "What's New in Astro 5.0?",
 			},
 			verifyPreview: {
 				previewArgs: ["--inspector-port=0"],
@@ -79,7 +77,7 @@ function getFrameworkTestConfig(pm: string): NamedFrameworkTestConfig[] {
 				expectedText: "C3_TEST",
 			},
 			nodeCompat: true,
-			flags: ["--skip-houston", "--template", "blog", "--typescript", "strict"],
+			flags: ["--skip-houston", "--typescript", "strict"],
 		},
 		{
 			name: "docusaurus:pages",
@@ -723,12 +721,11 @@ function getExperimentalFrameworkTestConfig(
 		{
 			name: "astro:workers",
 			argv: ["--platform", "workers"],
-			quarantine: true,
 			testCommitMessage: true,
 			unsupportedOSs: ["win32"],
 			verifyDeploy: {
 				route: "/",
-				expectedText: "Hello, Astronaut!",
+				expectedText: "What's New in Astro 5.0?",
 			},
 			verifyPreview: {
 				previewArgs: ["--inspector-port=0"],
@@ -740,8 +737,6 @@ function getExperimentalFrameworkTestConfig(
 				"--skip-houston",
 				"--no-install",
 				"--no-git",
-				"--template",
-				"blog",
 				"--typescript",
 				"strict",
 			],

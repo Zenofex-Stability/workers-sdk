@@ -16,6 +16,10 @@ const generate = async (ctx: C3Context) => {
 	// The adapter is added in the `configure` step instead
 	await runFrameworkGenerator(ctx, [
 		ctx.project.name,
+		// Use v5 "basics" template:
+		"--template",
+		// https://github.com/withastro/astro/tree/64533807745d8f2a298e0ad83757e7f05b10c7ba/examples/basics
+		"withastro/astro/examples/basics#64533807745d8f2a298e0ad83757e7f05b10c7ba",
 		// c3 will later install the dependencies
 		"--no-install",
 		// c3 will later ask users if they want to use git
