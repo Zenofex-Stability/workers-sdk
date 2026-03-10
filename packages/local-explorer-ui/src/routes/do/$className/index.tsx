@@ -1,4 +1,4 @@
-import { Button } from "@base-ui/react/button";
+import { Button } from "@cloudflare/kumo";
 import { CubeIcon } from "@phosphor-icons/react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useCallback, useEffect, useState } from "react";
@@ -187,9 +187,9 @@ function NamespaceView() {
 						{hasMore && (
 							<div className="text-center p-4">
 								<Button
-									className="inline-flex items-center justify-center py-2 px-4 text-sm font-medium rounded-md cursor-pointer transition-[background-color,transform] active:translate-y-px bg-bg-tertiary text-text border border-border hover:bg-border data-disabled:opacity-60 data-disabled:cursor-not-allowed data-disabled:active:translate-y-0"
+									variant="secondary"
 									disabled={loadingMore}
-									focusableWhenDisabled
+									loading={loadingMore}
 									onClick={handleLoadMore}
 								>
 									{loadingMore ? "Loading..." : "Load More"}

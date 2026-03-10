@@ -1,5 +1,5 @@
-import { Collapsible } from "@base-ui/react/collapsible";
 import { cn } from "@cloudflare/kumo";
+import { Collapsible } from "@cloudflare/kumo/primitives/collapsible";
 import { CaretRightIcon, CubeIcon, DatabaseIcon } from "@phosphor-icons/react";
 import { Link } from "@tanstack/react-router";
 import CloudflareLogo from "../assets/icons/cloudflare-logo.svg?react";

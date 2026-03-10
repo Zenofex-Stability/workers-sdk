@@ -1,5 +1,4 @@
-import { AlertDialog } from "@base-ui/react/alert-dialog";
-import { Button } from "@base-ui/react/button";
+import { Button, Dialog } from "@cloudflare/kumo";
 import { createFileRoute } from "@tanstack/react-router";
 import { useCallback, useEffect, useState } from "react";
 import {
@@ -412,10 +411,10 @@ function NamespaceView() {
 						{hasMore && (
 							<div className="text-center p-4">
 								<Button
-									className="inline-flex items-center justify-center py-2 px-4 text-sm font-medium rounded-md cursor-pointer transition-[background-color,transform] active:translate-y-px bg-bg-tertiary text-text border border-border hover:bg-border data-disabled:opacity-60 data-disabled:cursor-not-allowed data-disabled:active:translate-y-0"
+									variant="secondary"
 									onClick={handleLoadMore}
 									disabled={loadingMore}
-									focusableWhenDisabled
+									loading={loadingMore}
 								>
 									{loadingMore ? "Loading..." : "Load More"}
 								</Button>
@@ -424,77 +423,73 @@ function NamespaceView() {
 					</>
 				)}
 
-				<AlertDialog.Root
+				<Dialog.Root
 					open={deleteTarget !== null}
-					onOpenChange={(open) => !open && setDeleteTarget(null)}
+					onOpenChange={(open: boolean) => !open && setDeleteTarget(null)}
 				>
-					<AlertDialog.Portal>
-						<AlertDialog.Backdrop className="fixed inset-0 bg-black/50 flex items-center justify-center z-1000 transition-opacity duration-150 data-starting-style:opacity-0 data-ending-style:opacity-0" />
-						<AlertDialog.Popup className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-1001 bg-bg rounded-xl p-6 w-full max-w-125 shadow-[0_4px_24px_rgba(0,0,0,0.15),0_0_0_1px_var(--color-border)] transition-[opacity,transform] duration-150 data-starting-style:opacity-0 data-starting-style:scale-95 data-ending-style:opacity-0 data-ending-style:scale-95">
-							<AlertDialog.Title className="text-lg font-semibold mb-4">
-								Delete key?
-							</AlertDialog.Title>
-							<AlertDialog.Description className="text-text-secondary mb-2">
-								Are you sure you want to delete &ldquo;{deleteTarget}&rdquo;?
-								This cannot be undone.
-							</AlertDialog.Description>
-							<div className="flex justify-end gap-2 mt-6">
-								<AlertDialog.Close
-									render={
-										<Button className="inline-flex items-center justify-center py-2 px-4 text-sm font-medium border-none rounded-md cursor-pointer transition-[background-color,transform] active:translate-y-px bg-bg-tertiary text-text border border-border hover:bg-border data-disabled:opacity-60 data-disabled:cursor-not-allowed data-disabled:active:translate-y-0" />
-									}
-									disabled={deleting}
-								>
-									Cancel
-								</AlertDialog.Close>
-								<Button
-									className="inline-flex items-center justify-center py-2 px-4 text-sm font-medium border-none rounded-md cursor-pointer transition-[background-color,transform] active:translate-y-px bg-danger text-bg-tertiary hover:bg-danger-hover data-disabled:opacity-60 data-disabled:cursor-not-allowed data-disabled:active:translate-y-0"
-									onClick={handleConfirmDelete}
-									disabled={deleting}
-									focusableWhenDisabled
-								>
-									{deleting ? "Deleting..." : "Delete"}
-								</Button>
-							</div>
-						</AlertDialog.Popup>
-					</AlertDialog.Portal>
-				</AlertDialog.Root>
+					<Dialog className="p-6">
+						{/* @ts-expect-error - Type mismatch due to pnpm monorepo @types/react version conflict */}
+						<Dialog.Title className="text-lg font-semibold mb-4">
+							Delete key?
+						</Dialog.Title>
+						{/* @ts-expect-error - Type mismatch due to pnpm monorepo @types/react version conflict */}
+						<Dialog.Description className="text-text-secondary mb-2">
+							Are you sure you want to delete &ldquo;{deleteTarget}&rdquo;? This
+							cannot be undone.
+						</Dialog.Description>
+						<div className="flex justify-end gap-2 mt-6">
+							<Button
+								variant="secondary"
+								onClick={() => setDeleteTarget(null)}
+								disabled={deleting}
+							>
+								Cancel
+							</Button>
+							<Button
+								variant="destructive"
+								onClick={handleConfirmDelete}
+								disabled={deleting}
+								loading={deleting}
+							>
+								{deleting ? "Deleting..." : "Delete"}
+							</Button>
+						</div>
+					</Dialog>
+				</Dialog.Root>
 
-				<AlertDialog.Root
+				<Dialog.Root
 					open={overwriteConfirm !== null}
-					onOpenChange={(open) => !open && setOverwriteConfirm(null)}
+					onOpenChange={(open: boolean) => !open && setOverwriteConfirm(null)}
 				>
-					<AlertDialog.Portal>
-						<AlertDialog.Backdrop className="fixed inset-0 bg-black/50 flex items-center justify-center z-1000 transition-opacity duration-150 data-starting-style:opacity-0 data-ending-style:opacity-0" />
-						<AlertDialog.Popup className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-1001 bg-bg rounded-xl p-6 w-full max-w-125 shadow-[0_4px_24px_rgba(0,0,0,0.15),0_0_0_1px_var(--color-border)] transition-[opacity,transform] duration-150 data-starting-style:opacity-0 data-starting-style:scale-95 data-ending-style:opacity-0 data-ending-style:scale-95">
-							<AlertDialog.Title className="text-lg font-semibold mb-4">
-								Overwrite key?
-							</AlertDialog.Title>
-							<AlertDialog.Description className="text-text-secondary mb-2">
-								Key &ldquo;{overwriteConfirm?.key}&rdquo; already exists. Do you
-								want to overwrite its value?
-							</AlertDialog.Description>
-							<div className="flex justify-end gap-2 mt-6">
-								<AlertDialog.Close
-									render={
-										<Button className="inline-flex items-center justify-center py-2 px-4 text-sm font-medium border-none rounded-md cursor-pointer transition-[background-color,transform] active:translate-y-px bg-bg-tertiary text-text border border-border hover:bg-border data-disabled:opacity-60 data-disabled:cursor-not-allowed data-disabled:active:translate-y-0" />
-									}
-									disabled={overwriting}
-								>
-									Cancel
-								</AlertDialog.Close>
-								<Button
-									className="inline-flex items-center justify-center py-2 px-4 text-sm font-medium border-none rounded-md cursor-pointer transition-[background-color,transform] active:translate-y-px bg-primary text-bg-tertiary hover:bg-primary-hover data-disabled:opacity-60 data-disabled:cursor-not-allowed data-disabled:active:translate-y-0"
-									onClick={handleConfirmOverwrite}
-									disabled={overwriting}
-									focusableWhenDisabled
-								>
-									{overwriting ? "Overwriting..." : "Overwrite"}
-								</Button>
-							</div>
-						</AlertDialog.Popup>
-					</AlertDialog.Portal>
-				</AlertDialog.Root>
+					<Dialog className="p-6">
+						{/* @ts-expect-error - Type mismatch due to pnpm monorepo @types/react version conflict */}
+						<Dialog.Title className="text-lg font-semibold mb-4">
+							Overwrite key?
+						</Dialog.Title>
+						{/* @ts-expect-error - Type mismatch due to pnpm monorepo @types/react version conflict */}
+						<Dialog.Description className="text-text-secondary mb-2">
+							Key &ldquo;{overwriteConfirm?.key}&rdquo; already exists. Do you
+							want to overwrite its value?
+						</Dialog.Description>
+						<div className="flex justify-end gap-2 mt-6">
+							<Button
+								variant="secondary"
+								onClick={() => setOverwriteConfirm(null)}
+								disabled={overwriting}
+							>
+								Cancel
+							</Button>
+							<Button
+								variant="primary"
+								onClick={handleConfirmOverwrite}
+								disabled={overwriting}
+								loading={overwriting}
+							>
+								{overwriting ? "Overwriting..." : "Overwrite"}
+							</Button>
+						</div>
+					</Dialog>
+				</Dialog.Root>
 			</div>
 		</>
 	);
